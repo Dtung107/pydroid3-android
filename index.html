@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>Pydroid 3 Web - Python IDE & AI Debugger cho Android</title>
+    <meta name="description" content="Môi trường phát triển tích hợp (IDE) Python Pydroid 3 trên điện thoại Android với CPython, Pyodide WASM, Terminal tương tác input(), Trình gỡ lỗi thông minh Gemini AI và Kho bài tập lập trình." />
+    <meta property="og:title" content="Pydroid 3 Web - Python IDE & AI Debugger cho Android" />
+    <meta property="og:description" content="Môi trường phát triển tích hợp (IDE) Python Pydroid 3 trên điện thoại Android với CPython, Pyodide WASM, Terminal tương tác input(), Trình gỡ lỗi thông minh Gemini AI và Kho bài tập lập trình." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="full-screen" content="yes" />
+    <meta name="browsermode" content="application" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Sandbox iframe environment polyfill for Pyodide & localStorage safety -->
+    <script>
+      (function() {
+        function createMemoryStore() {
+          var store = {};
+          return {
+            getItem: function(k) { return Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null; },
+            setItem: function(k, v) { store[k] = String(v); },
+            removeItem: function(k) { delete store[k]; },
+            clear: function() { store = {}; },
+            key: function(i) { return Object.keys(store)[i] || null; },
+            get length() { return Object.keys(store).length; }
+          };
+        }
+
+        // Test and polyfill localStorage
+        try {
+          var testK = '__storage_test__';
+          window.localStorage.setItem(testK, testK);
+          window.localStorage.removeItem(testK);
+        } catch (_) {
+          try {
+            var memLocal = createMemoryStore();
+            Object.defineProperty(window, 'localStorage', { value: memLocal, writable: true, configurable: true });
+          } catch (e2) {}
+        }
+
+        // Test and polyfill sessionStorage
+        try {
+          var testS = '__session_test__';
+          window.sessionStorage.setItem(testS, testS);
+          window.sessionStorage.removeItem(testS);
+        } catch (_) {
+          try {
+            var memSession = createMemoryStore();
+            Object.defineProperty(window, 'sessionStorage', { value: memSession, writable: true, configurable: true });
+          } catch (e3) {}
+        }
+
+        // Handle and suppress unhandled Pyodide fetch rejections in sandbox iframe
+        window.addEventListener('unhandledrejection', function(event) {
+          var r = event.reason ? String(event.reason) : '';
+          if (r.indexOf('pyodide') !== -1 || r.indexOf('standard library') !== -1 || r.indexOf('Failed to fetch') !== -1) {
+            console.warn('[Pydroid 3 Safety] Captured Pyodide background fetch error:', event.reason);
+            event.preventDefault();
+          }
+        });
+      })();
+    </script>
+  </head>
+  <body class="bg-[#18181b] text-gray-100 select-none overflow-hidden touch-manipulation">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
