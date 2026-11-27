@@ -1,0 +1,5 @@
+{
+  "name": "Pydroid 3 Web",
+  "description": "Môi trường lập trình Python IDE tối ưu cho Android với hỗ trợ Trợ lý AI và WebAssembly",
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
